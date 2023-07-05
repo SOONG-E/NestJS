@@ -10,8 +10,8 @@ import { Repository } from 'typeorm';
 @Injectable()
 export class BoardsService {
 	constructor(
-		@InjectRepository(Board)
-		private boardRepository: Repository<Board>
+		@InjectRepository(BoardRepository)
+		private boardRepository: BoardRepository
 	   ) {}
 	  
 
@@ -32,6 +32,20 @@ export class BoardsService {
 
 	// 	return board;
 	// }
+
+	async createBoard(createBoardDto : CreateBoardDto) : Promise<Board> {
+		const { title, description } = createBoardDto;
+
+		const board = this.boardRepository.create({
+			title,
+			description,
+			status: BoardStatus.PUBLIC
+		})
+
+		await this.boardRepository.save(board);
+		return board;
+	}
+
 	async getBoardById(id : number) : Promise<Board>{
 		const found = await this.boardRepository.findOneBy({id});
 
