@@ -1,7 +1,7 @@
 import { BoardStatusValidationPipe } from './pipes/board-status-validation.pipe';
 import { CreateBoardDto } from './dto/create-board.dto';
 import { BoardsService } from './boards.service';
-import { Body, Controller, Get, Post, Param, Delete, Patch, UsePipes, ValidationPipe, NotFoundException } from '@nestjs/common';
+import { Body, Controller, Get, Post, Param, Delete, Patch, UsePipes, ValidationPipe, NotFoundException, ParseIntPipe } from '@nestjs/common';
 import { BoardStatus } from './board-status.enum';
 import { Board } from './board.entity';
 
@@ -42,10 +42,10 @@ export class BoardsController {
 	// 	return found;
 	// }
 
-	// @Delete('/:id')
-	// deleteBoard(@Param('id') id:string) : void{
-	// 	this.boardsService.deleteBoard(id);
-	// }
+	@Delete('/:id')
+	deleteBoard(@Param('id', ParseIntPipe) id: number) : Promise<void>{
+		return this.boardsService.deleteBoard(id);
+	}
 
 	// @Patch('/:id/status')
 	// updateBoardStatus(@Param('id') id :string,
