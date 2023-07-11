@@ -1,3 +1,4 @@
+import { User } from './../auth/user.entity';
 import { BoardRepository } from './board.repository';
 import { CreateBoardDto } from './dto/create-board.dto';
 import { Injectable, NotFoundException } from '@nestjs/common';
@@ -18,8 +19,8 @@ export class BoardsService {
 		return this.boardRepository.find();
 	}
 	
-	createBoard(createBoardDto : CreateBoardDto) : Promise<Board> {
-		return this.boardRepository.createBoard(createBoardDto);
+	createBoard(createBoardDto : CreateBoardDto, user: User) : Promise<Board> {
+		return this.boardRepository.createBoard(createBoardDto, user);
 	}
 
 	async getBoardById(id : number) : Promise<Board>{

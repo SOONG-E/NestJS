@@ -1,3 +1,5 @@
+import { User } from './../auth/user.entity';
+import { GetUser } from './../auth/get-user.decorator';
 import { AuthGuard } from '@nestjs/passport';
 import { BoardStatusValidationPipe } from './pipes/board-status-validation.pipe';
 import { CreateBoardDto } from './dto/create-board.dto';
@@ -11,15 +13,15 @@ import { Board } from './board.entity';
 export class BoardsController {
 	constructor(private boardsService: BoardsService){}
 
-	@Get()
+	@Get() 
 	getAllBoard() : Promise<Board[]>{
 		return this.boardsService.getAllBoards();
 	}
 
 	@Post()
 	@UsePipes(ValidationPipe)
-	createBoard(@Body() createBoardDto: CreateBoardDto): Promise<Board> {
-		return this.boardsService.createBoard(createBoardDto);
+	createBoard(@Body() createBoardDto: CreateBoardDto, @GetUser() user: User): Promise<Board> {
+		return this.boardsService.createBoard(createBoardDto, user);
 	}
 
 
